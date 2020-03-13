@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Points</h1>
+<table>
+    <p th:each="point:${points}">
+        <tr>
+            <td th:utext="${point.getId()}"></td>
+            <td>---</td>
+            <td th:utext="${point.getName()}"></td>
+        </tr>
+        <tr th:each="car:${point.getCars()}">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td th:utext="${car.mark}+' '+${car.number}"></td>
+        </tr>
+    </p>
+    </td>
+</table>
+</body>
+</html>

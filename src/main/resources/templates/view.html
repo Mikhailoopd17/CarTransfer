@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Detail information</title>
+    <style>
+        table {width: 100%; border-collapse: collapse;}
+        table td {padding: 12px 16px;align-items: center}
+        table thead tr {font-weight: bold; border-top: 1px solid #e8e9eb; background: aquamarine}
+        table tr {border-bottom: 1px solid #e8e9eb;}
+        table tbody tr:hover {background: #e8f6ff;}
+    </style>
+</head>
+<body>
+<h2 align="center">Детальная информация по выбранному автомобилю</h2>
+<ul>
+    <li>
+        <p th:text="${car.getMark()}+' '+${car.getNumber()}+' '+${car.getPoint().getName()}"></p>
+    </li>
+    <li>
+        <p th:text="${car.MediumTransferTime()}"></p>
+    </li>
+</ul>
+<h4 align="right">История трансферов выбранного авто</h4>
+<table>
+    <thead>
+    <tr>
+        <td>Марка автомобиля</td>
+        <td>Дата и время начала проката</td>
+        <td>Дата и время окончания проката</td>
+        <td>ФИО Арендатора</td>
+        <td>Номер автомобиля</td>
+    </tr>
+    </thead>
+    <tbody>
+        <p th:each="transfer:${car.getTransfers()}">
+            <tr>
+                <td th:utext="${transfer.getCar().getMark()}"></td>
+                <td th:utext="${transfer.getDateBegin()}"></td>
+                <td th:utext="${transfer.getDateEnd()}"></td>
+                <td th:utext="${transfer.getTenant()}"></td>
+                <td th:utext="${transfer.getCar().getNumber()}"></td>
+            </tr>
+        </p>
+    </tbody>
+
+</table>
+</body>
+</html>

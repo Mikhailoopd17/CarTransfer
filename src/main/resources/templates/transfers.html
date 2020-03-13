@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Transfers</title>
+<!--    <link rel="stylesheet" type="text/css" href="/templates/style.css"/>-->
+    <style>
+        table {width: 100%; border-collapse: collapse;}
+        table td {padding: 12px 16px;align-items: center}
+        table thead tr {font-weight: bold; border-top: 1px solid #e8e9eb; background: aquamarine}
+        table tr {border-bottom: 1px solid #e8e9eb;}
+        table tbody tr:hover {background: #e8f6ff;}
+    </style>
+</head>
+<body>
+<h1 align="center">Transfers</h1>
+<table class="html" align="center">
+    <thead>
+    <tr>
+        <td>Номер</td>
+        <td>Автомобиль</td>
+        <td>Дата и время начала проката</td>
+        <td>Дата и время окончания проката</td>
+        <td>ФИО Арендатора</td>
+        <td>Подробнее</td>
+    </tr>
+    </thead>
+    <tbody>
+    <p th:each="transfer:${transfers}">
+        <tr>
+
+            <td th:utext="${transfer.getId()}"></td>
+            <td th:utext="${transfer.getCar().mark}+' '+${transfer.getCar().number}"></td>
+            <td th:utext="${transfer.getDateBegin()}"></td>
+            <td th:utext="${transfer.getDateEnd()}"></td>
+            <td th:utext="${transfer.getTenant()}"></td>
+            <td>
+                <a th:href="'/cars/'+${transfer.getCar().getId()}">Детали</a>
+            </td>
+        </tr>
+    </p>
+    </tbody>
+</table>
+</body>
+</html>
