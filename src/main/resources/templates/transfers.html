@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
-    <title>Transfers</title>
+    <title>Transfers page</title>
 <!--    <link rel="stylesheet" type="text/css" href="/templates/style.css"/>-->
     <style>
         table {width: 100%; border-collapse: collapse;}
@@ -21,9 +20,13 @@
     <tr>
         <td>Номер</td>
         <td>Автомобиль</td>
-        <td>Дата и время начала проката</td>
-        <td>Дата и время окончания проката</td>
+        <td>Тариф</td>
+        <td>Дата начала проката</td>
+        <td>Дата окончания проката</td>
+        <td>Точка начала</td>
+        <td>Точка сдачи</td>
         <td>ФИО Арендатора</td>
+        <td>Сумма</td>
         <td>Подробнее</td>
     </tr>
     </thead>
@@ -32,10 +35,14 @@
         <tr>
 
             <td th:utext="${transfer.getId()}"></td>
-            <td th:utext="${transfer.getCar().mark}+' '+${transfer.getCar().number}"></td>
+            <td th:utext="${transfer.getCar()}"></td>
+            <td th:utext="${transfer.getCar().getTariff().getValue()}"></td>
             <td th:utext="${transfer.getDateBegin()}"></td>
             <td th:utext="${transfer.getDateEnd()}"></td>
+            <td th:utext="${transfer.getPointBegin()}"></td>
+            <td th:utext="${transfer.getPointEnd()}"></td>
             <td th:utext="${transfer.getTenant()}"></td>
+            <td th:utext="${transfer.getSumm()}"></td>
             <td>
                 <a th:href="'/cars/'+${transfer.getCar().getId()}">Детали</a>
             </td>
@@ -43,5 +50,38 @@
     </p>
     </tbody>
 </table>
+
+
+<form method="post" action="/transfers/new">
+    <ul>
+        <li>
+            <h2>New transfer</h2>
+        </li>
+        <li>
+            <label>Заказчик:</label>
+            <input type="text" name="tenant"  required />
+        </li>
+        <li>
+            <label>Id автомобиля:</label>
+            <input type="number" name="car_id"   required />
+        </li>
+        <li>
+            <label>Дата начала:</label>
+            <input type="date" name="date_begin" required />
+        </li>
+        <li>
+            <label>Дата окончания:</label>
+            <input type="date" name="date_end"  required />
+        </li>
+        <li>
+            <label>Точка сдачи авто(id):</label>
+            <input type="number" name="point_id"  required />
+        </li>
+        <li>
+            <button class="submit" type="submit">Submit</button>
+        </li>
+    </ul>
+</form>
+
 </body>
 </html>

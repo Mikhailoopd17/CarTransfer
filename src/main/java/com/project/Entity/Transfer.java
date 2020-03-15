@@ -1,6 +1,12 @@
 package com.project.Entity;
 
+import org.hibernate.annotations.NotFound;
+import org.springframework.data.repository.NoRepositoryBean;
+
 import javax.persistence.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -15,22 +21,22 @@ public class Transfer {
     private Car car;
     private Date dateBegin;
     private Date dateEnd;
-
-    private Point pointBegin;
-    private Point pointEnd;
+    private String pointBegin;
+    private String pointEnd;
     private Float summ;
 
     public Transfer() {
     }
 
-    public Transfer(String tenant, Car car, Date dateBegin,
-                    Date dateEnd, Point pointEnd) {
+    public Transfer(String tenant, Car car, String dateBegin,
+                    String dateEnd, String pointEnd) throws ParseException {
         this.tenant = tenant;
         this.car = car;
-        this.dateBegin = dateBegin;
-        this.dateEnd = dateEnd;
-        this.pointBegin = car.getPoint();
+        setDateBegin(dateBegin);
+        setDateEnd(dateEnd);
+        this.pointBegin = car.getPoint().getName();
         this.pointEnd = pointEnd;
+        setSumm();
     }
 
     @Id
@@ -51,7 +57,7 @@ public class Transfer {
         this.tenant = tenant;
     }
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "cars_id")
     public Car getCar() {
         return car;
@@ -61,37 +67,56 @@ public class Transfer {
         this.car = car;
     }
 
-    public Date getDateBegin() {
-        return dateBegin;
+    public String getDateBegin() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(this.dateBegin);
     }
 
-    public void setDateBegin(Date dateBegin) {
-        this.dateBegin = dateBegin;
+    public void setDateBegin(String dateBegin) throws ParseException {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        this.dateBegin = dateFormat.parse(dateBegin);
     }
 
-    public Date getDateEnd() {
-        return dateEnd;
+    public String getDateEnd() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(this.dateEnd);
     }
 
-    public void setDateEnd(Date dateEnd) {
-        this.dateEnd = dateEnd;
+    public void setDateEnd(String dateEnd) throws ParseException {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        this.dateEnd = dateFormat.parse(dateEnd);
     }
 
-    public Point gPointBegin() {
+    public String getPointBegin() {
         return pointBegin;
     }
 
-    public void sPointBegin() {
-        this.pointBegin = car.getPoint();
+    public void setPointBegin(String pointBegin) {
+        this.pointBegin = pointBegin;
     }
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "points_id")
-    public Point getPointEnd() {
+    public String getPointEnd() {
         return pointEnd;
     }
 
-    public void setPointEnd(Point pointEnd) {
+    public void setPointEnd(String pointEnd) {
         this.pointEnd = pointEnd;
+    }
+
+    public Float getSumm() {
+        return summ;
+    }
+
+    public void setSumm(float summ) {
+        this.summ = summ;
+    }
+
+    public void setSumm() {
+        this.summ = this.car.getTariff().getValue() * this.dayTransfer();
+    }
+
+    public int dayTransfer() {
+        long period = this.dateEnd.getTime() - this.dateBegin.getTime();
+        return (int) Math.floor(period / 86400000);
     }
 }

@@ -43,4 +43,9 @@ public class Point {
     public void setCars(Collection<Car> cars) {
         this.cars = cars;
     }
+
+    public String toString(){
+        return name;
+    }
+
 }

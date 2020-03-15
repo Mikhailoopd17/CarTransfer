@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Cars page</title>
 </head>
 <body>
 
@@ -19,37 +19,31 @@
             <td th:utext="${car.getNumber()}"></td>
             <td>---</td>
             <td th:utext="${car.getPoint().getName()}"></td>
-            <td>---</td>
-            <td th:utext="${car.MediumTransferTime()}"></td>
-        </tr>
-        <tr th:each="transfer:${car.getTransfers()}">
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td th:utext="${transfer.getId()}+' '+${transfer.getTenant()}+' '+${transfer.getDateBegin()}+' '+${transfer.getDateEnd()}"></td>
         </tr>
     </p>
 </table>
 
 
-<form method="post" action="/addcar">
+<form method="post" action="/cars/new">
     <ul>
         <li>
             <h2>New car</h2>
         </li>
         <li>
             <label>Mark:</label>
-            <input type="text" name="mark"  placeholder="Введите имя" required />
+            <input type="text" name="mark"  required />
         </li>
         <li>
             <label>Number:</label>
-            <input type="text" name="number"  placeholder="Введите имя" required />
+            <input type="text" name="number"   required />
         </li>
         <li>
             <label>Point:</label>
-            <input type="number" name="id"  placeholder="Введите имя" required />
+            <input type="number" name="id" required />
+        </li>
+        <li>
+            <label>Tariff:</label>
+            <input type="number" name="id_tariff"  required />
         </li>
         <li>
             <button class="submit" type="submit">Submit</button>

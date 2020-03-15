@@ -13,16 +13,19 @@ import java.util.Optional;
 @Service
 public class PointService {
 
-    @Autowired
-    private PointRepository repository;
+    private final PointRepository repository;
 
-    @Transactional
-    public List getAllPoint(){
-        return (List) repository.findAll();
+    public PointService(PointRepository repository) {
+        this.repository = repository;
     }
 
     @Transactional
-    public void add(Point point){
+    public List<Point> getAll(){
+        return (List<Point>)repository.findAll();
+    }
+
+    @Transactional
+    public void save(Point point){
        repository.save(point);
     }
     @Transactional
@@ -30,4 +33,8 @@ public class PointService {
         return repository.findById(id).get();
     }
 
+    @Transactional
+    public void delete(Long id){
+        repository.deleteById(id);
+    }
 }

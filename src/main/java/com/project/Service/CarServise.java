@@ -10,8 +10,11 @@ import java.util.List;
 
 @Service
 public class CarServise {
-    @Autowired
-    private CarRepository carRepository;
+    private final CarRepository carRepository;
+
+    public CarServise(CarRepository carRepository) {
+        this.carRepository = carRepository;
+    }
 
     @Transactional
     public List<Car> getAll(){
@@ -19,7 +22,7 @@ public class CarServise {
     }
 
     @Transactional
-    public  void add(Car car){
+    public  void save(Car car){
         carRepository.save(car);
     }
 
@@ -27,4 +30,10 @@ public class CarServise {
     public Car getById(Long id){
         return carRepository.findById(id).get();
     }
+
+    @Transactional
+    public void delete(Long id){
+        carRepository.deleteById(id);
+    }
+
 }
