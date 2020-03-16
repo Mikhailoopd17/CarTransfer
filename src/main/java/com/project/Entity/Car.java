@@ -85,11 +85,11 @@ public class Car {
     //метод для получения среднего времени проката по той или иной точке
     public Set<String> MediumTransferTime() {
         List<Transfer> listT = new ArrayList<>(transfers);
-        Set<String> message = new HashSet<>();
+        Set<String> message = new TreeSet<>();
         if(!listT.isEmpty()) {
             for (Transfer var1 : listT) {
-                int sum = 0;
-                float rezult = 0f;
+                float sum = 0;
+                String rezult = "";
                 List<Integer> temp = new ArrayList<>();
                 for (Transfer var2 : listT) {
                     if (var1.getPointBegin().equals(var2.getPointBegin())) {
@@ -100,13 +100,13 @@ public class Car {
                     for (int i : temp) {
                         sum += i;
                     }
-                    rezult = sum / temp.size();
+                    rezult = "в точке: " + var1.getPointBegin() + " - " + sum / temp.size() + " дней";
                 }
-                message.add(rezult + " дней в точке " + var1.getPointBegin());
+//                else
+//                     message.add("Машина не участвовала в прокате");
+                message.add(rezult);
             }
         }
-//        else
-//            message.add("Машина не участвовала в прокате");
         return message;
     }
     public void toTransfer(Point end){

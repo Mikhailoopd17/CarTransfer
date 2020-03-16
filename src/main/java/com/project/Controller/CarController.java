@@ -7,6 +7,7 @@ import com.project.Service.CarServise;
 import com.project.Service.PointService;
 import com.project.Service.TariffService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -52,9 +53,12 @@ public class CarController {
     }
 
     @GetMapping("/cars/{id}/delete")
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteCar(@PathVariable Long id){
-        carServise.delete(id);
+    public ResponseEntity<?> deleteCar(@PathVariable Long id){
+        if(!carServise.getAll().isEmpty() && carServise.getAll().contains(carServise.getById(id))){
+            carServise.delete(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        else
+            return  new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
     }
-
 }
